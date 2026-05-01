@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pulse Studio | Landing Page</title>
+    <meta
+      name="description"
+      content="Landing page moderna para apresentar produto, beneficios e chamada para acao."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700;800&family=Syne:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <a class="logo" href="#inicio">
+        <span class="logo-dot"></span>
+        Pulse Studio
+      </a>
+
+      <button
+        class="menu-btn"
+        id="menuBtn"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+      >
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav" id="navMenu">
+        <a href="#beneficios">Beneficios</a>
+        <a href="#prova">Resultados</a>
+        <a href="#planos">Planos</a>
+        <a href="#contato" class="btn btn-nav">Quero testar</a>
+      </nav>
+    </header>
+
+    <main id="inicio">
+      <section class="hero container reveal">
+        <p class="tag">NOVA GERAcaO DE LANDING PAGES</p>
+        <h1>
+          Transforme visitas em clientes com uma pagina que vende por voce.
+        </h1>
+        <p class="hero-copy">
+          Layout forte, mensagem clara e foco total em conversao. Ideal para
+          lancamento, servicos e produtos digitais.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contato">Comecar agora</a>
+          <a class="btn btn-ghost" href="#beneficios">Ver recursos</a>
+        </div>
+
+        <div class="stats">
+          <article>
+            <strong class="stat-number" data-target="38">0</strong>
+            <span>dias para retorno</span>
+          </article>
+          <article>
+            <strong class="stat-number" data-target="12">0</strong>
+            <span>blocos prontos</span>
+          </article>
+          <article>
+            <strong class="stat-number" data-target="96">0</strong>
+            <span>% satisfacao</span>
+          </article>
+        </div>
+      </section>
+
+      <section id="beneficios" class="features container">
+        <article class="card reveal">
+          <h3>Copy orientada a acao</h3>
+          <p>
+            Textos estrategicos para reduzir duvida e aumentar cliques no botao
+            principal.
+          </p>
+        </article>
+        <article class="card reveal">
+          <h3>Visual marcante</h3>
+          <p>
+            Direcao de arte com tipografia expressiva, contraste alto e
+            narrativa visual forte.
+          </p>
+        </article>
+        <article class="card reveal">
+          <h3>Leve e rapida</h3>
+          <p>
+            Codigo limpo em HTML, CSS e JS para carregar rapido e performar bem
+            no mobile.
+          </p>
+        </article>
+      </section>
+
+      <section id="prova" class="proof container reveal">
+        <div>
+          <p class="tag">PROVA SOCIAL</p>
+          <h2>Times pequenos, resultados grandes.</h2>
+          <p>
+            Estrutura pensada para guiar o usuario do interesse ate a conversao
+            em poucos segundos, sem distracoes.
+          </p>
+        </div>
+        <blockquote>
+          "Em 3 semanas aumentamos em 42% os contatos qualificados usando esta
+          estrutura de landing page."
+          <cite>Marina, Fundadora da Startly</cite>
+        </blockquote>
+      </section>
+
+      <section id="planos" class="pricing container reveal">
+        <h2>Escolha seu plano</h2>
+        <div class="pricing-grid">
+          <article class="price-card">
+            <h3>Start</h3>
+            <p class="price">R$ 99</p>
+            <p>Ideal para validar oferta rapidamente.</p>
+            <a href="#contato" class="btn btn-ghost">Selecionar</a>
+          </article>
+          <article class="price-card featured">
+            <p class="pill">Mais vendido</p>
+            <h3>Scale</h3>
+            <p class="price">R$ 199</p>
+            <p>Perfeito para campanhas com foco em crescimento.</p>
+            <a href="#contato" class="btn btn-primary">Selecionar</a>
+          </article>
+          <article class="price-card">
+            <h3>Pro</h3>
+            <p class="price">R$ 299</p>
+            <p>Para operacoes com alto volume e personalizacao.</p>
+            <a href="#contato" class="btn btn-ghost">Selecionar</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="contato" class="contact container reveal">
+        <div>
+          <p class="tag">VAMOS CONVERSAR</p>
+          <h2>Receba um rascunho em 24h.</h2>
+          <p>
+            Preencha o formulario e receba uma proposta inicial sem compromisso.
+          </p>
+        </div>
+
+        <form id="leadForm" novalidate>
+          <label for="name">Nome</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Seu nome"
+            required
+          />
+
+          <label for="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="voce@empresa.com"
+            required
+          />
+
+          <button type="submit" class="btn btn-primary">Enviar</button>
+          <p id="formMsg" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="container footer">
+      <p>2026 Pulse Studio. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
