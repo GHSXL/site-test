@@ -25,12 +25,14 @@
   function readConfig() {
     var globalConfig = window.TutorialWidgetConfig || {};
     var dataset = SCRIPT ? SCRIPT.dataset || {} : {};
+    var explicitApiBaseUrl = globalConfig.apiBaseUrl || dataset.apiBaseUrl || "";
     var siteKey = globalConfig.siteKey || dataset.siteKey || "";
-    var apiBaseUrl = globalConfig.apiBaseUrl || dataset.apiBaseUrl || inferApiBaseUrl();
+    var apiBaseUrl = explicitApiBaseUrl || inferApiBaseUrl();
 
     return {
       siteKey: siteKey,
       apiBaseUrl: trimTrailingSlash(apiBaseUrl),
+      hasExplicitApiBaseUrl: explicitApiBaseUrl.length > 0,
       launcherLabel: globalConfig.launcherLabel || dataset.launcherLabel || DEFAULTS.launcherLabel,
       autoOpen: toBoolean(globalConfig.autoOpen, dataset.autoOpen, DEFAULTS.autoOpen)
     };
@@ -110,6 +112,7 @@
     this.statusElement = null;
     this.listElement = null;
     this.isPanelOpen = false;
+    this.tutorialsLoaded = false;
   }
 
   Widget.prototype.init = function init() {
@@ -209,7 +212,7 @@
   Widget.prototype.togglePanel = function togglePanel() {
     this.isPanelOpen = !this.isPanelOpen;
     this.panelElement.classList.toggle("is-open", this.isPanelOpen);
-    if (this.isPanelOpen) {
+    if (this.isPanelOpen && this.tutorialsLoaded) {
       this.trackEvent(EVENT_TYPES.TUTORIAL_LIST_OPENED);
     }
   };
@@ -242,11 +245,12 @@
     })
       .then(function (response) {
         if (!response.ok) {
-          throw new Error("Erro ao carregar tutoriais.");
+          throw new Error("Erro ao carregar tutoriais (" + response.status + ").");
         }
         return response.json();
       })
       .then(function (payload) {
+        self.tutorialsLoaded = true;
         self.tutorials = Array.isArray(payload.tutorials) ? payload.tutorials : [];
         self.renderTutorialList();
         self.trackEvent(EVENT_TYPES.WIDGET_LOADED);
@@ -255,9 +259,32 @@
         }
       })
       .catch(function (error) {
-        self.statusElement.textContent = "Nao foi possivel carregar os tutoriais.";
+        self.tutorialsLoaded = false;
+        self.statusElement.textContent = self.getLoadErrorMessage(error);
         console.error("[TutorialWidget]", error);
       });
+  };
+
+  Widget.prototype.getLoadErrorMessage = function getLoadErrorMessage(error) {
+    var message = error && error.message ? String(error.message) : "";
+
+    if (this.shouldSuggestApiBaseUrl(message)) {
+      return "Nao foi possivel carregar os tutoriais. Configure o apiBaseUrl apontando para sua API publica.";
+    }
+
+    return "Nao foi possivel carregar os tutoriais.";
+  };
+
+  Widget.prototype.shouldSuggestApiBaseUrl = function shouldSuggestApiBaseUrl(message) {
+    if (this.config.hasExplicitApiBaseUrl) {
+      return false;
+    }
+
+    if (!this.config.apiBaseUrl) {
+      return true;
+    }
+
+    return /404|405/.test(message) || isStaticHost(this.config.apiBaseUrl);
   };
 
   Widget.prototype.renderTutorialList = function renderTutorialList() {
@@ -500,6 +527,10 @@
   };
 
   Widget.prototype.trackEvent = function trackEvent(eventType, tutorialId) {
+    if (!this.tutorialsLoaded) {
+      return;
+    }
+
     var endpoint = this.config.apiBaseUrl + "/api/public/widget/events";
     var payload = {
       siteKey: this.config.siteKey,
@@ -528,6 +559,15 @@
     }
 
     return String(value).replace(/"/g, '\\"');
+  }
+
+  function isStaticHost(url) {
+    try {
+      var hostname = new URL(url, window.location.href).hostname;
+      return /\.github\.io$/i.test(hostname) || /\.pages\.dev$/i.test(hostname);
+    } catch (error) {
+      return false;
+    }
   }
 
   var widget = new Widget(readConfig());
