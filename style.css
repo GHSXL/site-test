@@ -89,6 +89,10 @@ body {
   font-weight: 600;
 }
 
+.nav a[aria-current="page"] {
+  color: var(--brand);
+}
+
 .menu-btn {
   display: none;
   border: 0;
@@ -125,13 +129,15 @@ main {
 }
 
 .hero h1,
+.about-hero h1,
 h2,
 h3 {
   font-family: "Syne", sans-serif;
   margin-top: 0;
 }
 
-.hero h1 {
+.hero h1,
+.about-hero h1 {
   font-size: clamp(2.2rem, 6vw, 4.5rem);
   line-height: 0.98;
   max-width: 12ch;
@@ -209,10 +215,20 @@ h3 {
   margin-top: 1.2rem;
 }
 
+.values {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
 .card,
 .proof,
 .pricing,
-.contact {
+.contact,
+.about-panel,
+.about-story,
+.about-cta {
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--card);
@@ -305,6 +321,64 @@ h3 {
   gap: 1.2rem;
 }
 
+.about-hero {
+  padding: 4.5rem 0 2.8rem;
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 1.5rem;
+  align-items: end;
+}
+
+.about-panel {
+  padding: 1.4rem;
+  background: linear-gradient(160deg, #15312a, #0f241f);
+  color: #f0f8f5;
+}
+
+.about-panel span {
+  display: block;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.78;
+  margin-bottom: 1rem;
+}
+
+.about-panel strong {
+  display: block;
+  font-family: "Syne", sans-serif;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  line-height: 1.04;
+}
+
+.about-story {
+  margin-top: 1.2rem;
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.about-story p,
+.about-cta p {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.about-cta {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.about-cta div {
+  max-width: 680px;
+}
+
 form {
   display: grid;
   gap: 0.55rem;
@@ -368,14 +442,22 @@ input:focus {
 
 @media (max-width: 940px) {
   .features,
+  .values,
   .pricing-grid,
   .proof,
-  .contact {
+  .contact,
+  .about-hero,
+  .about-story {
     grid-template-columns: 1fr;
   }
 
   .stats {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .about-cta {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 
@@ -413,6 +495,10 @@ input:focus {
   }
 
   .hero {
+    padding-top: 3rem;
+  }
+
+  .about-hero {
     padding-top: 3rem;
   }
 
